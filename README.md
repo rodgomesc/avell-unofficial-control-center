@@ -1,7 +1,7 @@
 #  Unofficial-CC
 [![Gitter](https://badges.gitter.im/Unofficial-CC/Lobby.svg)](https://gitter.im/Unofficial-CC/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-This is an Unofficial Control Center for Avell Laptops with Linux OS.
+This is an Unofficial Control Center for Avell Laptops with Linux System.
 
 This project is in an early stage, the aim is to bring functionality to control Avell laptops hardware since the company does not provide support for Linux systems.
  
