@@ -25,15 +25,25 @@ pip install -r requirements.txt
 
 ### Usage
 
-with `root` user .
+switch to `root` user.<br>
+colors available are, `red`, `green`, `blue`, `teal` and `pink`.<br>
+to set mono color in all keys;
 
 ```bash 
-
 python main.py -c color
-
 ```
+to disable all keys:
+```bash 
+python main.py -d
+```
+to change keyboard light style:
 
-colors avaliable are, `red`, `green`, `blue`, `teal` and `pink`
+```bash 
+python main.py -s style
+```
+styles available are `aurora`, `marquee`, `raindrop`, `reactive` and `rainbow`
+
+
 
 ### Contributions
 

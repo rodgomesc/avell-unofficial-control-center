@@ -13,16 +13,29 @@ import usb.core
 import usb.util
 import colors
 
-
+light_style = {
+    'rainbow': (0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00),
+    'reactive': (0x08, 0x02, 0x04, 0x05, 0x24, 0x08, 0x01, 0x00),
+    'raindrop': (0x08, 0x02, 0x0A, 0x05, 0x24, 0x08, 0x00, 0x00),
+    'marquee': (0x08, 0x02, 0x09, 0x05, 0x24, 0x08, 0x00, 0x00),
+    'aurora': (0x08, 0x02, 0x0E, 0x05, 0x24, 0x08, 0x00, 0x00)
+}
 # 21 09 00 03 01 00 08 00 # setup packet
 
-# 0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00    #disabled
-# 0x08, 0x02, 0x05, 0x05, 0x24, 0x00, 0x00, 0x00    #rainbow
-# 0x08, 0x02, 0x04, 0x05, 0x24, 0x08, 0x01, 0x00    #reactive
-# 0x08, 0x02, 0x0A, 0x05, 0x24, 0x08, 0x00, 0x00    #rainDrop
-# 0x08, 0x02, 0x09, 0x05, 0x24, 0x08, 0x00, 0x00    #Marquee
-# 0x08, 0x02, 0x0E, 0x05, 0x24, 0x08, 0x00, 0x00    #Aurora
-# 0x08, 0x02, 0x33, 0x00, 0x24, 0x00, 0x00, 0x00    # reset any color scheme before apply a new one, this is needed
+
+def disable_keyboard():
+
+    dev.ctrl_transfer(
+        bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
+        data_or_wLength=(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
+    )  # reset color scheme
+
+
+def keyboard_style(style):
+    print(light_style[style])
+    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300,
+                      wIndex=1, data_or_wLength=light_style[style])
+
 
 def mono_color_setup(color_scheme):
 
@@ -65,10 +78,14 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description='color options are: red, green, blue, teal and pink')
-    parser.add_argument('-c', '--color', type=mono_color_setup,
-                        action='store', required=True)
+    parser.add_argument('-c', '--color', type=mono_color_setup, action='store')
+    parser.add_argument('-d', '--disable', action='store_true')
+    parser.add_argument('-s', '--style', type=keyboard_style, action='store')
 
     parsed = parser.parse_args()
 
-    #print('Result:',  vars(parsed))
-    #print('parsed.reqd:', parsed.reqd)
+    if parsed.disable:
+        disable_keyboard()
+
+        #print('Result:',  vars(parsed))
+        #print('parsed.reqd:', parsed.reqd)
