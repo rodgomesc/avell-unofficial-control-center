@@ -11,7 +11,7 @@ import sys
 import os
 import usb.core
 import usb.util
-import colors
+from colors import get_mono_color_vector, get_h_alt_color_vector, get_v_alt_color_vector
 
 light_style = {
     'rainbow': (0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00),
@@ -24,7 +24,6 @@ light_style = {
 
 
 def disable_keyboard():
-
     dev.ctrl_transfer(
         bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
         data_or_wLength=(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
@@ -37,18 +36,38 @@ def keyboard_style(style):
                       wIndex=1, data_or_wLength=light_style[style])
 
 
+def color_scheme_setup():
+    # reset color scheme
+    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, 
+                      data_or_wLength=(0x08, 0x02, 0x33, 0x00, 0x24, 0x00, 0x00, 0x00))
+    # setup a mono_color scheme
+    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, 
+                      data_or_wLength=(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00))
+
+
 def mono_color_setup(color_scheme):
-
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, data_or_wLength=(
-        0x08, 0x02, 0x33, 0x00, 0x24, 0x00, 0x00, 0x00))  # reset color scheme
-
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, data_or_wLength=(
-        0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00))  # setup a mono_color scheme
+    color_scheme_setup()
 
     # i don't know whats happens behind the hoods, but control center send
     # this sequence of bytes 8 times, other wise don't will work
+    color_vector = get_mono_color_vector(color_scheme)
+
     for _ in range(8):
-        dev.write(0x2, getattr(colors, color_scheme))
+        dev.write(0x2, color_vector)
+
+
+def h_alt_color_setup(color_scheme_a, color_scheme_b):
+    color_scheme_setup()
+    color_vector = get_h_alt_color_vector(color_scheme_a, color_scheme_b)
+    for _ in range(8):
+        dev.write(0x2, color_vector)
+
+
+def v_alt_color_setup(color_scheme_a, color_scheme_b):
+    color_scheme_setup()
+    color_vector = get_v_alt_color_vector(color_scheme_a, color_scheme_b)
+    for _ in range(8):
+        dev.write(0x2, color_vector)
 
 
 if __name__ == "__main__":
@@ -77,15 +96,33 @@ if __name__ == "__main__":
         usb.util.ENDPOINT_OUT)
 
     parser = argparse.ArgumentParser(
-        description='color options are: red, green, blue, teal and pink')
-    parser.add_argument('-c', '--color', type=mono_color_setup, action='store')
-    parser.add_argument('-d', '--disable', action='store_true')
-    parser.add_argument('-s', '--style', type=keyboard_style, action='store')
+        description="Supply at least one of the options [-c|-H|-V|-s|-d]. "
+                    "Colors available: "
+                    "[red|green|blue|teal|pink|purple|white|yellow|orange]")
+    parser.add_argument('-c', '--color', help='Single color')
+    parser.add_argument('-H', '--h-alt', nargs=2,
+                        help='Horizontal alternating colors')
+    parser.add_argument('-V', '--v-alt', nargs=2,
+                        help='Vertical alternating colors')
+    parser.add_argument('-s', '--style',
+                        help='one of (rainbow, reactive, raindrop, marquee, aurora)')
+    parser.add_argument('-d', '--disable', action='store_true',
+                        help='turn keyboard backlight off')
 
     parsed = parser.parse_args()
 
     if parsed.disable:
         disable_keyboard()
+    elif parsed.color:
+        mono_color_setup(parsed.color)
+    elif parsed.h_alt:
+        h_alt_color_setup(*parsed.h_alt)
+    elif parsed.v_alt:
+        v_alt_color_setup(*parsed.v_alt)
+    elif parsed.style:
+        keyboard_style(parsed.style)
+    else:
+        print("Invalid or absent command")
 
-        #print('Result:',  vars(parsed))
-        #print('parsed.reqd:', parsed.reqd)
+    # print('Result:',  vars(parsed))
+    # print('parsed.reqd:', parsed.reqd)
