@@ -44,7 +44,7 @@ def keyboard_style(style):
                       wIndex=1, data_or_wLength=light_style[style])
 
 
-def adjust_brightness(value='4'):
+def adjust_brightness(value=4):
 
     dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, data_or_wLength=(
         0x08, 0x02, 0x33, 0x00, brightness_map[value], 0x00, 0x00, 0x00))
