@@ -20,6 +20,15 @@ light_style = {
     'marquee': (0x08, 0x02, 0x09, 0x05, 0x24, 0x08, 0x00, 0x00),
     'aurora': (0x08, 0x02, 0x0E, 0x05, 0x24, 0x08, 0x00, 0x00)
 }
+
+# keybpoard brightness have 4 variations 0x08,0x16,0x24,0x32
+brightness_map = {
+    1: 0x08,
+    2: 0x16,
+    3: 0x24,
+    4: 0x32
+}
+
 # 21 09 00 03 01 00 08 00 # setup packet
 
 
@@ -27,21 +36,24 @@ def disable_keyboard():
     dev.ctrl_transfer(
         bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
         data_or_wLength=(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
-    )  # reset color scheme
+    )
 
 
 def keyboard_style(style):
-    print(light_style[style])
     dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300,
                       wIndex=1, data_or_wLength=light_style[style])
 
 
+def adjust_brightness(value='4'):
+
+    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, data_or_wLength=(
+        0x08, 0x02, 0x33, 0x00, brightness_map[value], 0x00, 0x00, 0x00))
+
+
 def color_scheme_setup():
-    # reset color scheme
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, 
-                      data_or_wLength=(0x08, 0x02, 0x33, 0x00, 0x24, 0x00, 0x00, 0x00))
+
     # setup a mono_color scheme
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, 
+    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
                       data_or_wLength=(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00))
 
 
@@ -100,6 +112,7 @@ if __name__ == "__main__":
                     "Colors available: "
                     "[red|green|blue|teal|pink|purple|white|yellow|orange]")
     parser.add_argument('-c', '--color', help='Single color')
+    parser.add_argument('-b', '--brightness', help='1, 2, 3 or 4')
     parser.add_argument('-H', '--h-alt', nargs=2,
                         help='Horizontal alternating colors')
     parser.add_argument('-V', '--v-alt', nargs=2,
@@ -110,10 +123,11 @@ if __name__ == "__main__":
                         help='turn keyboard backlight off')
 
     parsed = parser.parse_args()
-
     if parsed.disable:
         disable_keyboard()
-    elif parsed.color:
+    if parsed.brightness:
+        adjust_brightness(int(parsed.brightness))
+    if parsed.color:
         mono_color_setup(parsed.color)
     elif parsed.h_alt:
         h_alt_color_setup(*parsed.h_alt)
@@ -123,6 +137,3 @@ if __name__ == "__main__":
         keyboard_style(parsed.style)
     else:
         print("Invalid or absent command")
-
-    # print('Result:',  vars(parsed))
-    # print('parsed.reqd:', parsed.reqd)
