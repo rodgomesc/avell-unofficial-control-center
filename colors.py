@@ -1,22 +1,26 @@
-RED = [0x00, 0xFF, 0x00, 0x00]
-GREEN = [0x00, 0x00, 0xFF, 0x00]
-BLUE = [0x00, 0x00, 0x00, 0xFF]
-TEAL = [0x00, 0x00, 0xFF, 0xFF]
-PINK = [0x00, 0xFF, 0x00, 0xFF]
-YELLOW = [0x00, 0xFF, 0xFF, 0x00]
-WHITE = [0x00, 0xFF, 0xFF, 0xFF]
-ORANGE = [0x00, 0xFF, 0x1C, 0x00]
+_colors_available = {
+    'red': [0x00, 0xFF, 0x00, 0x00],
+    'green': [0x00, 0x00, 0xFF, 0x00],
+    'blue': [0x00, 0x00, 0x00, 0xFF],
+    'teal': [0x00, 0x00, 0xFF, 0xFF],
+    'purple': [0x00, 0xFF, 0x00, 0xFF],
+    'pink': [0x00, 0xFF, 0x00, 0x77],
+    'yellow': [0x00, 0xFF, 0x77, 0x00],
+    'white': [0x00, 0xFF, 0xFF, 0xFF],
+    'orange': [0x00, 0xFF, 0x1C, 0x00]
+}
 
 
-def _fixed_color(color_vector):
-    return bytearray(16*color_vector)
+def get_mono_color_vector(color_name):
+    return bytearray(16*_colors_available[color_name])
 
 
-red = _fixed_color(RED)
-green = _fixed_color(GREEN)
-blue = _fixed_color(BLUE)
-teal = _fixed_color(TEAL)
-pink = _fixed_color(PINK)
-yellow = _fixed_color(YELLOW)
-white = _fixed_color(WHITE)
-orange = _fixed_color(ORANGE)
+def get_h_alt_color_vector(color_name_a, color_name_b):
+    return bytearray(8*(_colors_available[color_name_a] + _colors_available[color_name_b]))
+
+
+def get_v_alt_color_vector(color_name_a, color_name_b):
+    return bytearray(8*_colors_available[color_name_a] + 8*_colors_available[color_name_b])
+
+
+
