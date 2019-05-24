@@ -25,6 +25,11 @@ This project is in an early stage, the aim is to bring functionality to control 
 pip install -r requirements.txt
 ```
 
+
+### A short video showing project Usage
+
+[![Usage](https://i3.ytimg.com/vi/13zXcJfthw8/hqdefault.jpg)](https://youtu.be/13zXcJfthw8)
+
 ### Usage
 
 All commands need `root` permissions (you may use sudo).<br>
