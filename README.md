@@ -1,13 +1,17 @@
-#  Unofficial-CC
+#  avell-unofficial-control-center
+
 [![Gitter](https://badges.gitter.im/Unofficial-CC/Lobby.svg)](https://gitter.im/Unofficial-CC/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-This is an Unofficial Control Center for Avell Laptops with Linux System.
+This is a driver to control RGB keyboard in Linux Systems based on Avell Control Center.
 
-This project is in an early stage, the aim is to bring functionality to control Avell laptops hardware since the company does not provide support for Linux systems.
+This project is in an early stage, the aim is to bring a driver to integrated embedded controller for RGB LED lighting control **ITE Device(8291)** which is used in some custom laptops around the world including avell.
  
 #### working: ####
  
  - change color of mechanical rgb-keyboard
+ - adjust brightness
+ - disable RGB leds
+ - set predefined styles
 
 
 #### to-do ####
@@ -16,15 +20,11 @@ This project is in an early stage, the aim is to bring functionality to control 
  - set custom color in specific key
  - monitor, cpu/gpu load
 
-#### Supported Devices ####
-
-- all devices equiped with  [2º generation of mechanical keyboards](http://blog.avell.com.br/melhorias-segunda-geracao-de-teclados-mecanicos-avell/)
 
 ### Requirements
 ```bash 
 pip install -r requirements.txt
 ```
-
 
 ### A short video showing project Usage
 
@@ -34,11 +34,12 @@ pip install -r requirements.txt
 
 All commands need `root` permissions (you may use sudo).<br>
 Colors available are: `red`, `green`, `blue`, `teal`, `pink`, `yellow`, `orange` and `white`.<br>
+Brightness options are: `1`,`2`,`3` and `4`.<br>
 
-To set mono color in all keys;
+To set `green` color in all keys with max brightness;
 
 ```bash 
-python main.py -c color
+python main.py -c green -b 4
 ```
 
 To disable all keys:
