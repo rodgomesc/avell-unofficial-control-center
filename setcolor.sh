@@ -3,6 +3,12 @@
 
 "$@"
 
+#Informa ao usuário a lista de argumentos válidos:
+
+
+if [ "$@" = "help" ]; then
+   cat setcolor.txt | more
+fi
 
 #Define a cor AZUL e suas INTENSIDADES:
 
