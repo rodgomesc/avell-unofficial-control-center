@@ -11,7 +11,7 @@
 ========================================================================================================================================
 == COR ROSA:         || pink1 (brilho fraco)   || pink2 (brilho médio baixo)  || pink3 (brilho médio alto)  || green4 (brilho máximo);==
 ========================================================================================================================================
-== COR AMARELA:      || yellow1 (brilho fraco) || green2 (brilho médio baixo) || green3 (brilho médio alto) || green4 (brilho máximo);==
+== COR AMARELA:      || yellow1 (brilho fraco) || yellow2 (brilho médio baixo) || yellow3 (brilho médio alto) || yellow4 (brilho máximo);==
 ========================================================================================================================================
-== COR ROXA:         || green1 (brilho fraco), || green2 (brilho médio baixo) || green3 (brilho médio alto) || green4 (brilho máximo);==
+== COR ROXA:         || purple1 (brilho fraco), || purple2 (brilho médio baixo) ||purple3 (brilho médio alto) || purple4 (brilho máximo);==
 ========================================================================================================================================
