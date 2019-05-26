@@ -78,7 +78,7 @@ fi
 
 if [ "$@" = "red1" ]; then
    echo "Cor vermelha"
-   sudo python3 main.py -c pink -b 1
+   sudo python3 main.py -c red -b 1
 fi
 
 if [ "$@" = "red2" ]; then
