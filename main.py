@@ -5,13 +5,14 @@ The full license is in the file LICENSE, distributed with this software.
 Created on May 22, 2019
 @author: @rodgomesc
 """
-
 import argparse
 import sys
 import os
-import usb.core
-import usb.util
-from colors import get_mono_color_vector, get_h_alt_color_vector, get_v_alt_color_vector
+from core import DeviceHandle
+import pprint
+import time
+from colors import get_mono_color_vector, get_h_alt_color_vector, get_v_alt_color_vector, _colors_available
+
 
 light_style = {
     'rainbow': (0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00),
@@ -29,57 +30,41 @@ brightness_map = {
     4: 0x32
 }
 
-# 21 09 00 03 01 00 08 00 # setup packet
 
+class ControlCenter(DeviceHandle):
+    def __init__(self, vendor_id, product_id):
+        super(ControlCenter, self).__init__(vendor_id, product_id)
 
-def disable_keyboard():
-    dev.ctrl_transfer(
-        bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
-        data_or_wLength=(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
-    )
+    def disable_keyboard(self):
+        self.ctrl_write(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
 
+    def keyboard_style(self, style):
+        self.ctrl_write(*light_style[style])
 
-def keyboard_style(style):
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300,
-                      wIndex=1, data_or_wLength=light_style[style])
+    def adjust_brightness(self, value=4):
+        self.ctrl_write(0x08, 0x02, 0x33, 0x00,
+                        brightness_map[value], 0x00, 0x00, 0x00)
 
+    def color_scheme_setup(self):
+        self.ctrl_write(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00)
 
-def adjust_brightness(value=4):
+    def mono_color_setup(self, color_scheme):
 
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1, data_or_wLength=(
-        0x08, 0x02, 0x33, 0x00, brightness_map[value], 0x00, 0x00, 0x00))
+        self.color_scheme_setup()
+        color_vector = get_mono_color_vector(color_scheme)
+        self.bulk_write(times=8, payload=color_vector)
 
+    def h_alt_color_setup(self, color_scheme_a, color_scheme_b):
 
-def color_scheme_setup():
+        self.color_scheme_setup()
+        color_vector = get_h_alt_color_vector(color_scheme_a, color_scheme_b)
+        self.bulk_write(times=8, payload=color_vector)
 
-    # setup a mono_color scheme
-    dev.ctrl_transfer(bmRequestType=0x21, bRequest=9, wValue=0x300, wIndex=1,
-                      data_or_wLength=(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00))
+    def v_alt_color_setup(self, color_scheme_a, color_scheme_b):
 
-
-def mono_color_setup(color_scheme):
-    color_scheme_setup()
-
-    # i don't know whats happens behind the hoods, but control center send
-    # this sequence of bytes 8 times, other wise don't will work
-    color_vector = get_mono_color_vector(color_scheme)
-
-    for _ in range(8):
-        dev.write(0x2, color_vector)
-
-
-def h_alt_color_setup(color_scheme_a, color_scheme_b):
-    color_scheme_setup()
-    color_vector = get_h_alt_color_vector(color_scheme_a, color_scheme_b)
-    for _ in range(8):
-        dev.write(0x2, color_vector)
-
-
-def v_alt_color_setup(color_scheme_a, color_scheme_b):
-    color_scheme_setup()
-    color_vector = get_v_alt_color_vector(color_scheme_a, color_scheme_b)
-    for _ in range(8):
-        dev.write(0x2, color_vector)
+        self.color_scheme_setup()
+        color_vector = get_v_alt_color_vector(color_scheme_a, color_scheme_b)
+        self.bulk_write(times=8, payload=color_vector)
 
 
 if __name__ == "__main__":
@@ -87,30 +72,12 @@ if __name__ == "__main__":
     if not os.geteuid() == 0:
         sys.exit('This script must be run as root!')
 
-    dev = usb.core.find(idVendor=0x048d, idProduct=0xce00)
-
-    if dev is None:
-        raise ValueError('Device not found')
-
-    # in linux interface is 1, in windows 0
-    if not sys.platform.startswith('win'):
-        if dev.is_kernel_driver_active(1):
-            dev.detach_kernel_driver(1)
-
-    cfg = dev.get_active_configuration()
-    intf = cfg[(1, 0)]
-
-    ep = usb.util.find_descriptor(
-        intf,
-        # match the first OUT endpoint
-        custom_match=lambda e: \
-        usb.util.endpoint_direction(e.bEndpointAddress) == \
-        usb.util.ENDPOINT_OUT)
+    control = ControlCenter(vendor_id=0x048d, product_id=0xce00)
 
     parser = argparse.ArgumentParser(
         description="Supply at least one of the options [-c|-H|-V|-s|-d]. "
-                    "Colors available: "
-                    "[red|green|blue|teal|pink|purple|white|yellow|orange]")
+        "Colors available: "
+        "[red|green|blue|teal|pink|purple|white|yellow|orange]")
     parser.add_argument('-c', '--color', help='Single color')
     parser.add_argument('-b', '--brightness', help='1, 2, 3 or 4')
     parser.add_argument('-H', '--h-alt', nargs=2,
@@ -120,20 +87,20 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--style',
                         help='one of (rainbow, reactive, raindrop, marquee, aurora)')
     parser.add_argument('-d', '--disable', action='store_true',
-                        help='turn keyboard backlight off')
+                        help='turn keyboard backlight off'),
 
     parsed = parser.parse_args()
     if parsed.disable:
-        disable_keyboard()
+        control.disable_keyboard()
     if parsed.brightness:
-        adjust_brightness(int(parsed.brightness))
+        control.adjust_brightness(int(parsed.brightness))
     if parsed.color:
-        mono_color_setup(parsed.color)
+        control.mono_color_setup(parsed.color)
     elif parsed.h_alt:
-        h_alt_color_setup(*parsed.h_alt)
+        control.h_alt_color_setup(*parsed.h_alt)
     elif parsed.v_alt:
-        v_alt_color_setup(*parsed.v_alt)
+        control.v_alt_color_setup(*parsed.v_alt)
     elif parsed.style:
-        keyboard_style(parsed.style)
+        control.keyboard_style(parsed.style)
     else:
         print("Invalid or absent command")
