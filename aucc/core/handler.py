@@ -45,9 +45,9 @@ class Device(object):
         return ep
 
 
-class DeviceHandle(Device):
+class DeviceHandler(Device):
     def __init__(self, vendor_id, product_id):
-        super(DeviceHandle, self).__init__(vendor_id, product_id)
+        super(DeviceHandler, self).__init__(vendor_id, product_id)
         self.bmRequestType = 0x21
         self.bRequest = 0x09
         self.wValue = 0x300
