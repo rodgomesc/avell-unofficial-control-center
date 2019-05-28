@@ -36,6 +36,7 @@ brightness_map = {
 class ControlCenter(DeviceHandler):
     def __init__(self, vendor_id, product_id):
         super(ControlCenter, self).__init__(vendor_id, product_id)
+        self.brightness = None
 
     def disable_keyboard(self):
         self.ctrl_write(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
@@ -43,18 +44,27 @@ class ControlCenter(DeviceHandler):
     def keyboard_style(self, style):
         self.ctrl_write(*light_style[style])
 
-    def adjust_brightness(self, value=4):
-        self.ctrl_write(0x08, 0x02, 0x33, 0x00,
-                        brightness_map[value], 0x00, 0x00, 0x00)
+    def adjust_brightness(self, brightness=None):
+        print(brightness)
+        if brightness:
+            self.brightness = brightness
+            self.ctrl_write(0x08, 0x02, 0x33, 0x00,
+                            brightness_map[self.brightness], 0x00, 0x00, 0x00)
+        else:
+            self.adjust_brightness(4)
 
     def color_scheme_setup(self):
         self.ctrl_write(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00)
 
     def mono_color_setup(self, color_scheme):
 
-        self.color_scheme_setup()
-        color_vector = get_mono_color_vector(color_scheme)
-        self.bulk_write(times=8, payload=color_vector)
+        if self.brightness:
+            self.color_scheme_setup()
+            color_vector = get_mono_color_vector(color_scheme)
+            self.bulk_write(times=8, payload=color_vector)
+        else:
+            self.adjust_brightness()
+            self.mono_color_setup(color_scheme)
 
     def h_alt_color_setup(self, color_scheme_a, color_scheme_b):
 
