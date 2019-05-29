@@ -21,9 +21,14 @@ This project is in an early stage, the aim is to bring a driver to integrated em
  - monitor, cpu/gpu load
 
 
-### Requirements
+### Installation
+
+Install via pip using sudo or with root user: 
+
 ```bash 
-pip install -r requirements.txt
+
+sudo pip install avell-unofficial-control-center
+
 ```
 
 ### A short video showing project Usage
@@ -39,18 +44,18 @@ Brightness options are: `1`,`2`,`3` and `4`.<br>
 To set `green` color in all keys with max brightness;
 
 ```bash 
-python main.py -c green -b 4
+sudo aucc -c green -b 4
 ```
 
 To disable all keys:
 ```bash 
-python main.py -d
+sudo aucc -d
 ```
 
 To set keyboard predefined custom styles:
 
 ```bash 
-python main.py -s style
+sudo aucc -s style
 ```
 
 Styles available are `aurora`, `marquee`, `raindrop`, `reactive` and `rainbow`

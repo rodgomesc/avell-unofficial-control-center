@@ -45,7 +45,6 @@ class ControlCenter(DeviceHandler):
         self.ctrl_write(*light_style[style])
 
     def adjust_brightness(self, brightness=None):
-        print(brightness)
         if brightness:
             self.brightness = brightness
             self.ctrl_write(0x08, 0x02, 0x33, 0x00,
@@ -80,7 +79,6 @@ class ControlCenter(DeviceHandler):
 
 
 def main():
-
     if not os.geteuid() == 0:
         sys.exit('This script must be run as root!')
 
@@ -116,3 +114,7 @@ def main():
         control.keyboard_style(parsed.style)
     else:
         print("Invalid or absent command")
+
+
+if __name__ == "__main__":
+    main()
