@@ -27,35 +27,29 @@ Install via pip using sudo or with root user:
 
 ```bash 
 
-sudo pip install avell-unofficial-control-center
+sudo pip3 install avell-unofficial-control-center
 
 ```
 
-### A short video showing project Usage
-
-[![Usage](https://i3.ytimg.com/vi/13zXcJfthw8/hqdefault.jpg)](https://youtu.be/13zXcJfthw8)
-
 ### Usage
-
-All commands need `root` permissions (you may use sudo).<br>
 Colors available are: `red`, `green`, `blue`, `teal`, `pink`, `yellow`, `orange` and `white`.<br>
 Brightness options are: `1`,`2`,`3` and `4`.<br>
 
 To set `green` color in all keys with max brightness;
 
 ```bash 
-sudo aucc -c green -b 4
+aucc -c green -b 4
 ```
 
 To disable all keys:
 ```bash 
-sudo aucc -d
+aucc -d
 ```
 
 To set keyboard predefined custom styles:
 
 ```bash 
-sudo aucc -s style
+aucc -s style
 ```
 
 Styles available are `aurora`, `marquee`, `raindrop`, `reactive` and `rainbow`
