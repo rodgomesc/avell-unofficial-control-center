@@ -7,9 +7,15 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+def find_all(folder):
+    for (path, directories, filenames) in os.walk(folder):
+        for filename in filenames:
+            yield os.path.join('..', path, filename)
+
 setup(
     name='avell-unofficial-control-center',
-    version='1.0',
+    version='1.0.1',
     description='A Project to provide a driver and interface to control keyboard rgb led of ITE 8291 like Avell laptops',  # Required
     entry_points={'console_scripts': [
         'aucc = aucc.main:main']},
@@ -18,11 +24,12 @@ setup(
     url='https://github.com/rodgomesc/avell-unofficial-control-center',  # Optional
     author='Rodrigo Gomes da Cunha',
     author_email='rodgomesc@gmail.com',
-    packages=['aucc', 'aucc/core'],
+    packages=find_packages(),
+    package_data={'': find_all('aucc')},
     include_package_data=True,
-    package_data={'aucc': ['*.py'], 'aucc/core': ['*.py']},
     install_requires=[
-        'pyusb',
+	'pyusb',
+	'elevate'
     ],
     project_urls={
         'Bug Reports': 'https://github.com/rodgomesc/avell-unofficial-control-center/issues',

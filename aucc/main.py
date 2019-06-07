@@ -6,11 +6,10 @@ Created on May 22, 2019
 @author: @rodgomesc
 """
 import argparse
-import sys
-import os
-from core.handler import DeviceHandler
+import sys, os
+from aucc.core.handler import DeviceHandler
 import time
-from core.colors import (get_mono_color_vector,
+from aucc.core.colors import (get_mono_color_vector,
                          get_h_alt_color_vector,
                          get_v_alt_color_vector,
                          _colors_available)
@@ -79,8 +78,10 @@ class ControlCenter(DeviceHandler):
 
 
 def main():
+    from elevate import elevate
+
     if not os.geteuid() == 0:
-        sys.exit('This script must be run as root!')
+        elevate()
 
     control = ControlCenter(vendor_id=0x048d, product_id=0xce00)
 
