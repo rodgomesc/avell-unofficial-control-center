@@ -15,7 +15,7 @@ def find_all(folder):
 
 setup(
     name='avell-unofficial-control-center',
-    version='1.0.1',
+    version='1.0.2',
     description='A Project to provide a driver and interface to control keyboard rgb led of ITE 8291 like Avell laptops',  # Required
     entry_points={'console_scripts': [
         'aucc = aucc.main:main']},
