@@ -32,7 +32,7 @@ ITE Device(8291) is integrated in widely-used Tongfang gaming laptop barebones:
  - Tongfang GK5CN5Z / GK5CN6Z / GK5CQ7Z / GK5CP0Z (Barebone)
  - Avell G1550 FOX & Avell A65 (BR reseller)
  - Schenker XMG Neo 15 (DE reseller), Versions M18 & M19
- - PCSpecialist Recoil II (UK reseller)
+ - PCSpecialist Recoil II & III (UK reseller)
  - Scan/3XS LG15 Vengeance Pro (UK reseller)
  - Overpowered 15 and 15+ (US reseller, sold via Walmart)
  - Monster Tulpar T5 (TR reseller)
@@ -45,6 +45,7 @@ ITE Device(8291) is integrated in widely-used Tongfang gaming laptop barebones:
  - Origin-PC EON15-S (USA, Asia, and AU/NZ reseller)
  - Eluktronics Mech 15 G2 (US reseller)
  - HIDevolution EVOC 16GK5 (US reseller)
+ - Obsidian GK5CP (PT reseller)
 
 
 ## Project status
