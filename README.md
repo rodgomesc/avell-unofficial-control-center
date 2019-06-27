@@ -135,10 +135,10 @@ aucc -d
 
 ### step 1:
 
-go to `/etc/systemd/system` and create a `aucc.service`
+create `aucc.service` in `/etc/systemd/system`
 
 ```bash
-cd /etc/systemd/system/ && vi aucc.service
+vi /etc/systemd/system/aucc.service
 ```
 
 ### step 2:
