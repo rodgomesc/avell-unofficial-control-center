@@ -1,6 +1,15 @@
 # brew install hidapi
 # pip install hidapi
 
+"""
+Copyright (c) 2019, Rodrigo Gomes.
+Distributed under the terms of the MIT License.
+The full license is in the file LICENSE, distributed with this software.
+Created on Aug, 6, 2019
+
+@author: rodgomesc
+"""
+
 import hid
 from time import sleep
 
