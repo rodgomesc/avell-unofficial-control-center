@@ -1,24 +1,29 @@
-#  avell-unofficial-control-center
+# avell-unofficial-control-center
 
 [![Gitter](https://badges.gitter.im/Unofficial-CC/Lobby.svg)](https://gitter.im/Unofficial-CC/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 This is a driver to control RGB keyboard in Linux Systems based on Avell Control Center.
 
-This project is at an early stage. 
-The aim is to implement a Linux userspace driver and control tool for RGB LED keyboard backlight controller **Integrated Technology Express ITE Device(8291)**.
+This project is at an early stage.
+The aim is to implement a Linux userspace driver and control tool for RGB LED keyboard backlight controller **Integrated Technology Express ITE Device(8291) Rev 0.03**.
 This RGB keyboard controller is used in many gaming laptops around the world.
 For a list of reseller-branded devices, see below.
 
-
-
 ## Compatibility
+
+> ### **Note:**
+>
+> if you have **ITE Device(8291) Rev 0.02**
+> see [Project StarBeat](https://github.com/kirainmoe/project-starbeat)
 
 ### Find out about your laptop's keyboard model
 
 ```bash
 sudo hwinfo --short
 ```
+
 It should show the ITE Device(8291) in the `keyboard` section:
+
 ```bash
 keyboard:
                        Integrated Technology Express ITE Device(8291)
@@ -29,50 +34,47 @@ keyboard:
 
 ITE Device(8291) is integrated in widely-used Tongfang gaming laptop barebones:
 
- - Tongfang GK5CN5Z / GK5CN6Z / GK5CQ7Z / GK5CP0Z (Barebone)
- - Avell G1550 FOX, G1513 FOX-7, A65, A52 (BR reseller)
- - Schenker XMG Neo 15 (DE reseller), Versions M18 & M19
- - PCSpecialist Recoil II & III (UK reseller)
- - Scan/3XS LG15 Vengeance Pro (UK reseller)
- - Overpowered 15 and 15+ (US reseller, sold via Walmart)
- - Monster Tulpar T5 (TR reseller)
- - MECHREVO Deep Sea Ghost Z2 (CN reseller)
- - Raionbook GS5 (IT reseller)
- - Illegear Onyx (MY reseller)
- - Hyperbook Pulsar Z15 (PL reseller)
- - SMART7 Kallisto GX15D (PL reseller)
- - Aftershock APEX 15 (SG reseller)
- - Origin-PC EON15-S (USA, Asia, and AU/NZ reseller)
- - Eluktronics Mech 15 G2 (US reseller)
- - HIDevolution EVOC 16GK5 (US reseller)
- - Obsidian GK5CP (PT reseller)
-
+- Tongfang GK5CN5Z / GK5CN6Z / GK5CQ7Z / GK5CP0Z (Barebone)
+- Avell G1550 FOX, G1513 FOX-7, A65, A52 (BR reseller)
+- Schenker XMG Neo 15 (DE reseller), Versions M18 & M19
+- PCSpecialist Recoil II & III (UK reseller)
+- Scan/3XS LG15 Vengeance Pro (UK reseller)
+- Overpowered 15 and 15+ (US reseller, sold via Walmart)
+- Monster Tulpar T5 (TR reseller)
+- MECHREVO Deep Sea Ghost Z2 (CN reseller)
+- Raionbook GS5 (IT reseller)
+- Illegear Onyx (MY reseller)
+- Hyperbook Pulsar Z15 (PL reseller)
+- SMART7 Kallisto GX15D (PL reseller)
+- Aftershock APEX 15 (SG reseller)
+- Origin-PC EON15-S (USA, Asia, and AU/NZ reseller)
+- Eluktronics Mech 15 G2 (US reseller)
+- HIDevolution EVOC 16GK5 (US reseller)
+- Obsidian GK5CP (PT reseller)
 
 ## Project status
 
 #### Working:
- 
- - change color of mechanical rgb-keyboard
- - adjust brightness
- - disable RGB leds
- - set predefined styles
 
+- change color of mechanical rgb-keyboard
+- adjust brightness
+- disable RGB leds
+- set predefined styles
 
 #### To do:
- - implement a GUI interface in Pyqt/Pyside2
- - save/load profiles
- - set custom color in specific key
- - monitor, cpu/gpu load
 
-
+- implement a GUI interface in Pyqt/Pyside2
+- save/load profiles
+- set custom color in specific key
+- monitor, cpu/gpu load
 
 ## Installation
 
 ### The easy way, using `pip3`
 
-Install via pip using sudo or with root user: 
+Install via pip using sudo or with root user:
 
-```bash 
+```bash
 
 sudo pip3 install avell-unofficial-control-center
 
@@ -80,11 +82,9 @@ sudo pip3 install avell-unofficial-control-center
 
 ### The manual way, using `git`
 
- - Clone the repository (`git clone https://github.com/rodgomesc/avell-unofficial-control-center.git`), or update with `git pull` if cloned previously.
- - Build an installable package: `python3 setup.py build`
- - Install the package: `sudo python3 setup.py install`
-
-
+- Clone the repository (`git clone https://github.com/rodgomesc/avell-unofficial-control-center.git`), or update with `git pull` if cloned previously.
+- Build an installable package: `python3 setup.py build`
+- Install the package: `sudo python3 setup.py install`
 
 ## Usage
 
@@ -95,7 +95,7 @@ Brightness options are: `1`,`2`,`3` and `4`.<br>
 
 To set `green` color in all keys with max brightness:
 
-```bash 
+```bash
 aucc -c green -b 4
 ```
 
@@ -116,7 +116,7 @@ Use `-V` for vertical columns of alternating colors.
 
 To set keyboard predefined custom styles:
 
-```bash 
+```bash
 aucc -s style
 ```
 
@@ -125,12 +125,13 @@ Styles available are `aurora`, `marquee`, `raindrop`, `reactive` and `rainbow`.
 ### Disable all keyboard backlight
 
 To disable all keys:
-```bash 
+
+```bash
 aucc -d
 ```
 
-
 ## Add aucc to run on System Startup in 3 steps.
+
 ## The following commands need to be executed with root (superuser), or using sudo "command"
 
 ### step 1:
@@ -180,7 +181,10 @@ systemctl daemon-reload
 systemctl restart aucc.service
 ```
 
+### Thanks to
 
+1. [Avell](https://avell.com.br/) - For this amazing Laptop
+2. [@kirainmoe](https://github.com/kirainmoe) - For help-me on bring macOs Support
 
 ## Contributions
 
@@ -188,5 +192,4 @@ Contributions of any kind are welcome. Please follow [pep-8](https://www.python.
 
 ## Donate :coffee: :hearts:
 
-This is a project I develop in my free time.  If you use `avell-unofficial-control-center` or simply like the project and want to help please consider [donating a coffee](https://www.buymeacoffee.com/KCZRP52U7). 
-
+This is a project I develop in my free time. If you use `avell-unofficial-control-center` or simply like the project and want to help please consider [donating a coffee](https://www.buymeacoffee.com/KCZRP52U7).
