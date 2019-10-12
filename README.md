@@ -90,7 +90,7 @@ sudo pip3 install avell-unofficial-control-center
 
 ### Plain colors
 
-Colors available are: `red`, `green`, `blue`, `teal`, `pink`, `yellow`, `orange` and `white`.<br>
+Colors available are: `red`, `green`, `blue`, `teal`, `pink`, `yellow`, `orange`, `white`, `olive`, `maroon`, `brown`, `gray`, `skyblue`, `navy`, `crimson`, `darkgreen`, `lightgreen`, `gold`, `violet`.<br>
 Brightness options are: `1`,`2`,`3` and `4`.<br>
 
 To set `green` color in all keys with max brightness:
