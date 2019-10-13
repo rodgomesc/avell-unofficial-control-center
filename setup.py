@@ -25,7 +25,7 @@ setup(
     author='Rodrigo Gomes da Cunha',
     author_email='rodgomesc@gmail.com',
     packages=find_packages(),
-    package_data={'': find_all('aucc')},
+    package_data={'': [file for file in find_all('aucc')]},
     include_package_data=True,
     install_requires=[
 	'pyusb',
