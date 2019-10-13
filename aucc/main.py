@@ -88,7 +88,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Supply at least one of the options [-c|-H|-V|-s|-d]. "
         "Colors available: "
-        "[red|green|blue|teal|pink|purple|white|yellow|orange]")
+        "[red|green|blue|teal|pink|purple|white|yellow|orange|olive|maroon|brown|gray|skyblue|navy|crimson|darkgreen|lightgreen|gold|violet]")
     parser.add_argument('-c', '--color', help='Single color')
     parser.add_argument('-b', '--brightness', help='1, 2, 3 or 4')
     parser.add_argument('-H', '--h-alt', nargs=2,
