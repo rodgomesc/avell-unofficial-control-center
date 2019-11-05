@@ -51,7 +51,7 @@ ITE Device(8291) is integrated in widely-used Tongfang gaming laptop barebones:
 - Eluktronics Mech 15 G2 (US reseller)
 - HIDevolution EVOC 16GK5 (US reseller)
 - Obsidian GK5CP (PT reseller)
-
+- Vulcan JinGang GTX Standard
 ## Project status
 
 #### Working:
