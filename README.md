@@ -120,7 +120,12 @@ To set keyboard predefined custom styles:
 aucc -s style
 ```
 
-Styles available are `aurora`, `marquee`, `raindrop`, `reactive` and `rainbow`.
+Styles available are `rainbow`, `marquee`, `wave`, `raindrop`, `aurora`, `random`, `reactive`, `breathing`, `ripple`, `reactiveripple`, `reactiveaurora`
+
+Additional single colors are available for the following styles: `raindrop`, `aurora`, `random`, `reactive`, `breathing`, `ripple`, `reactiveripple` and `reactiveaurora`.
+The colors available are: Red (r), Orange (o), Yellow (y), Green (g), Blue (b), Teal (t), Purple (p).
+
+Append those styles with the start letter of the color you would like. For example: `rippler` = Ripple Red, `reactiveo` = Reactive Orange, `reactiveripplep` = Reactive Ripple Purple.
 
 ### Disable all keyboard backlight
 
