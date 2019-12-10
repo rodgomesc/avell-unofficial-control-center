@@ -158,10 +158,26 @@ light_style = {
     # Reactive aurora purple
     'reactiveaurora': (0x08, 0x02, 0x0e, 0x05, 0x24, 0x07, 0x01, 0x00),
     # Reactive aurora rainbow
-    'reactiveaurora': (0x08, 0x02, 0x0e, 0x05, 0x24, 0x08, 0x01, 0x00)
+    'reactiveaurora': (0x08, 0x02, 0x0e, 0x05, 0x24, 0x08, 0x01, 0x00),,
+    # Fireworks red
+    'fireworksr':(0x08, 0x02, 0x11, 0x05, 0x24, 0x01, 0x01, 0x00),
+    # Fireworks orange
+    'fireworkso':(0x08, 0x02, 0x11, 0x05, 0x24, 0x02, 0x01, 0x00),
+    # Fireworks yellow
+    'fireworksy':(0x08, 0x02, 0x11, 0x05, 0x24, 0x03, 0x01, 0x00),
+    # Fireworks green 
+    'fireworksg':(0x08, 0x02, 0x11, 0x05, 0x24, 0x04, 0x01, 0x00),
+    # Fireworks blue
+    'fireworksb':(0x08, 0x02, 0x11, 0x05, 0x24, 0x05, 0x01, 0x00),
+    # Fireworks teal 
+    'fireworkst':(0x08, 0x02, 0x11, 0x05, 0x24, 0x06, 0x01, 0x00),
+    # Fireworks purple
+    'fireworksp':(0x08, 0x02, 0x11, 0x05, 0x24, 0x07, 0x01, 0x00),
+    # Fireworks rainbow
+    'fireworks':(0x08, 0x02, 0x11, 0x05, 0x24, 0x08, 0x01, 0x00)
 }
 
-# Keybpoard brightness has 4 variations 0x08,0x16,0x24,0x32
+# Keyboard brightness has 4 variations 0x08,0x16,0x24,0x32
 brightness_map = {
     1: 0x08,
     2: 0x16,
@@ -238,7 +254,7 @@ def main():
     parser.add_argument('-V', '--v-alt', nargs=2,
                         help='Vertical alternating colors')
     parser.add_argument('-s', '--style',
-                        help='One of (rainbow, marquee, wave, raindrop, aurora, random, reactive, breathing, ripple, reactiveripple, reactiveaurora). Additional single colors are available for the following styles: raindrop, aurora, random, reactive, breathing, ripple, reactiveripple and reactiveaurora. These colors are: Red (r), Orange (o), Yellow (y), Green (g), Blue (b), Teal (t), Purple (p). Append those styles with the start letter of the color you would like (e.g. rippler = Ripple Red')
+                        help='One of (rainbow, marquee, wave, raindrop, aurora, random, reactive, breathing, ripple, reactiveripple, reactiveaurora, fireworks). Additional single colors are available for the following styles: raindrop, aurora, random, reactive, breathing, ripple, reactiveripple, reactiveaurora and fireworks. These colors are: Red (r), Orange (o), Yellow (y), Green (g), Blue (b), Teal (t), Purple (p). Append those styles with the start letter of the color you would like (e.g. rippler = Ripple Red')
     parser.add_argument('-d', '--disable', action='store_true',
                         help='Turn keyboard backlight off'),
     
