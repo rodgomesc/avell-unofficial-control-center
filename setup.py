@@ -13,9 +13,10 @@ def find_all(folder):
         for filename in filenames:
             yield os.path.join('..', path, filename)
 
+
 setup(
     name='avell-unofficial-control-center',
-    version='1.0.2',
+    version='1.0.3',
     description='A Project to provide a driver and interface to control keyboard rgb led of ITE 8291 like Avell laptops',  # Required
     entry_points={'console_scripts': [
         'aucc = aucc.main:main']},
@@ -28,8 +29,8 @@ setup(
     package_data={'': list(find_all('aucc'))},
     include_package_data=True,
     install_requires=[
-	'pyusb',
-	'elevate'
+        'pyusb',
+        'elevate'
     ],
     project_urls={
         'Bug Reports': 'https://github.com/rodgomesc/avell-unofficial-control-center/issues',
