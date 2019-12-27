@@ -213,7 +213,7 @@ class ControlCenter(DeviceHandler):
         options available: (0x00 for no, 0x01 for yes)
         purpose: write changes on chip to keep current color on reboot
         '''
-        self.ctrl_write(0x12, 0x00, 0x00, 0x08, 0x01, 0x00, 0x00, 0x00)
+        self.ctrl_write(0x12, 0x00, 0x00, 0x08, save_changes, 0x00, 0x00, 0x00)
 
     def mono_color_setup(self, color_scheme):
 
