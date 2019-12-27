@@ -52,6 +52,7 @@ ITE Device(8291) is integrated in widely-used Tongfang gaming laptop barebones:
 - HIDevolution EVOC 16GK5 (US reseller)
 - Obsidian GK5CP (PT reseller)
 - Vulcan JinGang GTX Standard
+
 ## Project status
 
 #### Working:
@@ -133,57 +134,6 @@ To disable all keys:
 
 ```bash
 aucc -d
-```
-
-## Add aucc to run on System Startup in 3 steps.
-
-## The following commands need to be executed with root (superuser), or using sudo "command"
-
-### step 1:
-
-create `aucc.service` in `/etc/systemd/system`
-
-```bash
-vi /etc/systemd/system/aucc.service
-```
-
-### step 2:
-
-press i to enter in vim edit mode and paste folow (use the command in "ExecStart" line to specify aucc options):
-
-```bash
-[Unit]
-Description=Avell Keyboard Configuration
-[Service]
-Type=oneshot
-ExecStart=/usr/local/bin/aucc -c red -b 1
-[Install]
-WantedBy=multi-user.target
-```
-
-to write and save the content press `ESC` and hold `Shift+zz`
-
-for more options about customize colors, brightness and styles, folow [Usage](https://github.com/rodgomesc/avell-unofficial-control-center#usage) Instructions
-
-### step 3:
-
-give permissions enable service and put it to work:
-
-```bash
-chmod 755 aucc.service # give permissions
-systemctl enable aucc.service # enable service
-systemctl daemon-reload # reload daemon for apply changes
-systemctl start aucc.service # start service
-systemctl status aucc.service #check status
-```
-
-reboot and enjoy :)
-
-if you want to change something in service file don't forget to reload the daemon and restart service:
-
-```bash
-systemctl daemon-reload
-systemctl restart aucc.service
 ```
 
 ### Thanks to
