@@ -208,8 +208,12 @@ class ControlCenter(DeviceHandler):
         else:
             self.adjust_brightness(4)
 
-    def color_scheme_setup(self):
-        self.ctrl_write(0x12, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00)
+    def color_scheme_setup(self, save_changes=0x01):
+        '''
+        options available: (0x00 for no, 0x01 for yes)
+        purpose: write changes on chip to keep current color on reboot
+        '''
+        self.ctrl_write(0x12, 0x00, 0x00, 0x08, 0x01, 0x00, 0x00, 0x00)
 
     def mono_color_setup(self, color_scheme):
 
