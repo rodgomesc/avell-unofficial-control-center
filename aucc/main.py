@@ -270,18 +270,19 @@ def main():
     parsed = parser.parse_args()
     if parsed.disable:
         control.disable_keyboard()
-    if parsed.brightness:
-        control.adjust_brightness(int(parsed.brightness))
-    if parsed.color:
-        control.mono_color_setup(parsed.color)
-    elif parsed.h_alt:
-        control.h_alt_color_setup(*parsed.h_alt)
-    elif parsed.v_alt:
-        control.v_alt_color_setup(*parsed.v_alt)
-    elif parsed.style:
-        control.keyboard_style(parsed.style)
-    else:
-        print("Invalid or absent command")
+    else :
+        if parsed.brightness:
+            control.adjust_brightness(int(parsed.brightness))
+        if parsed.color:
+            control.mono_color_setup(parsed.color)
+        elif parsed.h_alt:
+            control.h_alt_color_setup(*parsed.h_alt)
+        elif parsed.v_alt:
+            control.v_alt_color_setup(*parsed.v_alt)
+        elif parsed.style:
+            control.keyboard_style(parsed.style)
+        else:
+            print("Invalid or absent command")
 
 
 if __name__ == "__main__":
