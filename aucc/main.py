@@ -37,6 +37,7 @@ programs = {
     "fireworks":          0x11,
     "raindrop":           0x0A,
     "aurora":             0x0E,
+    "reactiveaurora":     0x0E,
 }
 
 colours = {
@@ -52,34 +53,37 @@ colours = {
 import re
 light_style_pattern = "^({})({})?$".format(
                             '|'.join(programs.keys()),
-                            '|'.join([ c[0] for c in colours.keys() ])
+                            '|'.join(colours.keys())
                         )
 def get_light_style_code( style, brightness=3 ) :
-    kwargs = {}
-    match = re.match( light_style_pattern, style ).groups()
+    match = re.match( light_style_pattern, style )
     
-    if not match[0] :
-        raise Exception( "Error: Style {} not found".format(program) )
+    if not match :
+        raise Exception( "Error: Style {} not found".format(style) )
+    else :
+        match = match.groups()
 
     program = match[0]
     program_code =      programs[program]
 
-    kwargs["colour"] =  colours[match[1]]  if match[1] else 0x08 # Default rainbow colour
-    kwargs["brightness"] =  brightness_map[brightness]
+    colour_code     =  colours[match[1]]  if match[1] else 0x08 # Default rainbow colour
+    brightness_code =  brightness_map[brightness]
+    program2 =    0x00
 
     if program == "rainbow" :
-        kwargs["colour"] = 0x00
-        kwargs["program2"] = 0x00
-    elif program == "marquee" :
-        kwargs["colour"] = 0x08
-        kwargs["program2"] = 0x00
-    elif program == "wave" :
-        kwargs["colour"] = 0x00
-        kwargs["program2"] = 0x01
-    elif program in ["reactive", "reactiveaurora", "fireworks"] :
-        kwargs["program2"] = 0x01
+        colour_code = 0x00
 
-    return get_code( program_code, **kwargs )
+    elif program == "marquee" :
+        colour_code = 0x08
+
+    elif program == "wave" :
+        colour_code = 0x00
+        program2 =    0x01
+
+    elif program in ["reactive", "reactiveaurora", "fireworks"] :
+        program2 = 0x01
+
+    return get_code( program_code, colour=colour_code, brightness=brightness_code, program2=program2 )
 
 
 def get_code( program, speed=0x05, brightness=0x24, colour=0x08, program2=0x00, save_changes=0x00 ):
