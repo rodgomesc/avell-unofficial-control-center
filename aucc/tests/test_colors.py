@@ -100,7 +100,7 @@ light_style = {
 }
 
 def test_style_colors() :
-    from main import get_light_style_code
+    from aucc.main import get_light_style_code
 
     for key in light_style.keys() :
         print( key )
