@@ -137,17 +137,23 @@ class ControlCenter(DeviceHandler):
 
     def h_alt_color_setup(self, color_scheme_a, color_scheme_b):
 
-        self.adjust_brightness()
-        self.color_scheme_setup()
-        color_vector = get_h_alt_color_vector(color_scheme_a, color_scheme_b)
-        self.bulk_write(times=8, payload=color_vector)
+        if self.brightness:
+            self.color_scheme_setup()
+            color_vector = get_h_alt_color_vector(color_scheme_a, color_scheme_b)
+            self.bulk_write(times=8, payload=color_vector)
+        else:
+            self.adjust_brightness()
+            self.h_alt_color_setup(color_scheme_a, color_scheme_b)
 
     def v_alt_color_setup(self, color_scheme_a, color_scheme_b):
 
-        self.adjust_brightness()
-        self.color_scheme_setup()
-        color_vector = get_v_alt_color_vector(color_scheme_a, color_scheme_b)
-        self.bulk_write(times=8, payload=color_vector)
+        if self.brightness:
+            self.color_scheme_setup()
+            color_vector = get_v_alt_color_vector(color_scheme_a, color_scheme_b)
+            self.bulk_write(times=8, payload=color_vector)
+        else:
+            self.adjust_brightness()
+            self.v_alt_color_setup(color_scheme_a, color_scheme_b)
 
 
 def main():
