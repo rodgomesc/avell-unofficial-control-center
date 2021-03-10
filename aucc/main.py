@@ -55,35 +55,35 @@ light_style_pattern = "^({})({})?$".format(
                             '|'.join(programs.keys()),
                             '|'.join(colours.keys())
                         )
-def get_light_style_code( style, brightness=3 ) :
-    match = re.match( light_style_pattern, style )
+def get_light_style_code(style, brightness=3, speed=0x05) :
+    match = re.match(light_style_pattern, style)
     
-    if not match :
-        raise Exception( "Error: Style {} not found".format(style) )
-    else :
+    if not match:
+        raise Exception("Error: Style {} not found".format(style))
+    else:
         match = match.groups()
 
     program = match[0]
-    program_code =      programs[program]
+    program_code = programs[program]
 
-    colour_code     =  colours[match[1]]  if match[1] else 0x08 # Default rainbow colour
+    colour_code = colours[match[1]]  if match[1] else 0x08 # Default rainbow colour
     brightness_code =  brightness_map[brightness]
-    program2 =    0x00
+    program2 = 0x00
 
-    if program == "rainbow" :
+    if program == "rainbow":
         colour_code = 0x00
 
-    elif program == "marquee" :
+    elif program == "marquee":
         colour_code = 0x08
 
-    elif program == "wave" :
+    elif program == "wave":
         colour_code = 0x00
-        program2 =    0x01
-
-    elif program in ["reactive", "reactiveaurora", "fireworks"] :
         program2 = 0x01
 
-    return get_code( program_code, colour=colour_code, brightness=brightness_code, program2=program2 )
+    elif program in ["reactive", "reactiveaurora", "fireworks"]:
+        program2 = 0x01
+
+    return get_code(program_code, speed=speed, colour=colour_code, brightness=brightness_code, program2=program2)
 
 
 def get_code( program, speed=0x05, brightness=0x24, colour=0x08, program2=0x00, save_changes=0x00 ):
@@ -107,8 +107,8 @@ class ControlCenter(DeviceHandler):
     def disable_keyboard(self):
         self.ctrl_write(0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
 
-    def keyboard_style(self, style, brightness=3):
-        self.ctrl_write(*get_light_style_code(style, brightness))
+    def keyboard_style(self, style, brightness=3, speed=5):
+        self.ctrl_write(*get_light_style_code(style, brightness, speed=speed))
 
     def adjust_brightness(self, brightness=None):
         if brightness:
@@ -183,17 +183,20 @@ def main():
     parser.add_argument('-s', '--style',
                         help='One of (rainbow, marquee, wave, raindrop, aurora, random, reactive, breathing, ripple, reactiveripple, reactiveaurora, fireworks). Additional single colors are available for the following styles: raindrop, aurora, random, reactive, breathing, ripple, reactiveripple, reactiveaurora and fireworks. These colors are: Red (r), Orange (o), Yellow (y), Green (g), Blue (b), Teal (t), Purple (p). Append those styles with the start letter of the color you would like (e.g. rippler = Ripple Red')
     parser.add_argument('-d', '--disable', action='store_true',
-                        help='Turn keyboard backlight off'),
+                        help='Turn keyboard backlight off')
+    parser.add_argument('--speed', type=int, choices=range(1,11),
+                        help='Set style speed. 1 is fastest. 10 is slowest')
 
     parsed = parser.parse_args()
     if parsed.disable:
         control.disable_keyboard()
     else :
         if parsed.style:
+            speed = parsed.speed if parsed.speed else 5
             if parsed.brightness :
-                control.keyboard_style(parsed.style, parsed.brightness)
+                control.keyboard_style(parsed.style, parsed.brightness, speed=speed)
             else :
-                control.keyboard_style(parsed.style)
+                control.keyboard_style(parsed.style, speed=speed)
         else :
             if parsed.brightness:
                 control.adjust_brightness(int(parsed.brightness))
